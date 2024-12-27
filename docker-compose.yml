@@ -3,15 +3,14 @@ version: '3.8'
 services:
   postgresql:
     image: postgres
-    container_name: test_nestjs
+    container_name: pq-local
     ports:
       - "5432:5432"
     environment:
       - POSTGRES_HOST=localhost
+      - POSTGRES_DB=nestjs_overview
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
-      - POSTGRES_DATABASE=nestjs_overview
-    command: postgres
     restart: always
 
   redis:
