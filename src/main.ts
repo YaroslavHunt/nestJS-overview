@@ -2,12 +2,17 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
   const port = configService.get('port');
 
+// Validation
+  app.useGlobalPipes(new ValidationPipe());
+
+// Swagger
   const config = new DocumentBuilder()
     .setTitle('NestJS overview API')
     .setDescription('This api for studies')

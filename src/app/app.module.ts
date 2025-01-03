@@ -4,11 +4,11 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import configurations from '../configurations';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { UserModule } from '../user/user.module';
+import { UsersModule } from '../user/users.module';
 
 @Module({
   imports: [
-    UserModule,
+    UsersModule,
     ConfigModule.forRoot({ isGlobal: true, load: [configurations] }),
     SequelizeModule.forRootAsync({
       imports: [ConfigModule],
