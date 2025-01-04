@@ -5,11 +5,14 @@ import { AppError } from '../../common/constants/errors';
 import { UserLoginDto } from './dto';
 import * as bcrypt from 'bcrypt';
 import { AuthUserResponse } from './response';
+import { TokenService } from '../token/token.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly usersService: UsersService) {
-  }
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly tokenService: TokenService
+  ) {}
 
   async registerUser(dto: CreateUserDto): Promise<CreateUserDto> {
     const existUser = await this.usersService.findUserByEmail(dto.email);
@@ -24,6 +27,8 @@ export class AuthService {
     const validPassword = await bcrypt.compare(dto.password, existUser.password);
     if (!validPassword) throw new BadRequestException(AppError.WRONG_PASSWORD);
 
-    return existUser;
+    const token = await this.tokenService.generateJwtToken(dto.email);
+
+    return {...existUser, token};
   }
 }
