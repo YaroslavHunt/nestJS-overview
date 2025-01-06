@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { User } from './models/user.model';
 import { InjectModel } from '@nestjs/sequelize';
 import * as bcrypt from 'bcrypt';
-import { CreateUserDto } from './dto';
+import { CreateUserDto, UpdateUserDto } from './dto';
 
 @Injectable()
 export class UsersService {
@@ -10,15 +10,15 @@ export class UsersService {
   constructor(@InjectModel(User) private readonly userRepository: typeof User) {
   }
 
-  async hashPassword(password: string) {
+  async hashPassword(password: string): Promise<string> {
     return bcrypt.hash(password, 10);
   }
 
-  async findUserByEmail(email: string) {
-    return this.userRepository.findOne({where:{email}})
+  async findUserByEmail(email: string): Promise<User> {
+    return this.userRepository.findOne({ where: { email } });
   }
 
-  getUsers() {
+  async getUsers() {
     return null;
   }
 
@@ -32,10 +32,20 @@ export class UsersService {
     return dto;
   }
 
-  async publicUser(email: string) {
+  async publicUser(email: string): Promise<User> {
     return this.userRepository.findOne({
-      where:{email},
-      attributes: {exclude: ['password']}
-    })
+      where: { email },
+      attributes: { exclude: ['password'] },
+    });
+  }
+
+  async updateUser(email: string, dto: UpdateUserDto): Promise<UpdateUserDto> {
+    await this.userRepository.update(dto, { where: { email } });
+    return dto;
+  }
+
+  async deleteUser(email: string): Promise<boolean> {
+    await this.userRepository.destroy({ where: { email } });
+    return true;
   }
 }
