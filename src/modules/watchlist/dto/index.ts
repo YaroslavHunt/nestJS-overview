@@ -1,9 +1,12 @@
 import { IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class WatchlistDto {
+  @ApiProperty()
   @IsString()
-  adsId: string;
+  title: string;
 
+  @ApiProperty()
   @IsString()
   description: string;
 }

@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Patch, Req, UseGuards } from '@nestjs/co
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto';
 import { JwtAuthGuard } from '../../guards/jwt.guard';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiResponse } from '@nestjs/swagger';
 
 @Controller('users')
 export class UsersController {
@@ -14,7 +14,6 @@ export class UsersController {
     return this.userService.getUsers();
   }
 
-  @ApiTags('API')
   @ApiResponse({ status: 202, type: UpdateUserDto })
   @UseGuards(JwtAuthGuard)
   @Patch()

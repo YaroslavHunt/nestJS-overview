@@ -1,35 +1,26 @@
-import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from '../user/dto';
 import { UserLoginDto } from './dto';
 import { AuthUserResponse } from './response';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../../guards/jwt.guard';
+import { ApiResponse } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {
+  }
 
-  @ApiTags('API')
-  @ApiResponse({status: 201, type: CreateUserDto}) // Created
+  @ApiResponse({ status: 201, type: CreateUserDto }) // Created
   @HttpCode(201)
   @Post('register')
   register(@Body() dto: CreateUserDto): Promise<CreateUserDto> {
     return this.authService.registerUser(dto);
   }
 
-  @ApiTags('API')
-  @ApiResponse({status: 200, type: AuthUserResponse}) // OK
-  @HttpCode(201)
+  @ApiResponse({ status: 200, type: AuthUserResponse }) // OK
+  @HttpCode(200)
   @Post('login')
   login(@Body() dto: UserLoginDto): Promise<AuthUserResponse> {
     return this.authService.loginUser(dto);
   }
-
-  @UseGuards(JwtAuthGuard)
-  @Post('test')
-  test() {
-    return true;
-  }
-
 }

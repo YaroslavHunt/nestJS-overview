@@ -4,7 +4,7 @@ import { User } from '../../user/models/user.model';
 @Table
 export class Watchlist extends Model {
   @Column
-  adsId: string;
+  title: string;
 
   @Column
   description:string;
