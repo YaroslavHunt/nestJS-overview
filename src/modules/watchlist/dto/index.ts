@@ -2,8 +2,8 @@ import { IsString } from 'class-validator';
 
 export class WatchlistDto {
   @IsString()
-  name: string;
+  adsId: string;
 
   @IsString()
-  assetId: string;
+  description: string;
 }
