@@ -2,15 +2,15 @@ version: '3.8'
 
 services:
   postgresql:
-    image: postgres
-    container_name: test_nestjs
+    image: postgres:alpine3.14
+    container_name: pq-local
     ports:
       - "5432:5432"
     environment:
       - POSTGRES_HOST=localhost
-      - POSTGRES_USER=root
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=nestjs_overview
       - POSTGRES_PASSWORD=root
-      - POSTGRES_DATABASE=nestjs_overview
     command: postgres
     restart: always
 
